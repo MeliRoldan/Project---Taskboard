@@ -1,0 +1,343 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Josefin Sans", sans-serif;
+}
+
+body {
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    transition: background-color 0.4s;
+}
+
+.dark-mode {
+    background-color: black !important;
+    color: white;
+}
+
+.dark-text {
+    color: rgb(0, 234, 255) !important;
+}
+
+nav {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    text-transform: uppercase;
+    box-shadow: 0px 1px 5px #99999a;
+}
+
+@media screen and (max-width: 600px) {
+    nav {
+      grid-template-columns: max-content 60px;
+      grid-template-rows: auto auto;
+      row-gap: 0.5rem;
+      grid-template-areas: 
+        "brandName switch"
+        "navUl navUl";
+    }
+  
+    #brandName {
+      grid-area: brandName;
+    }
+  
+    .navUl {
+      grid-area: navUl;
+      justify-content: start;
+    }
+  
+    .switch {
+      grid-area: switch;
+    }
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    list-style: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+}
+
+.switchBtn {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+}
+
+.switchBtn input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(209, 215, 222);
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    left: 0px;
+    bottom: -4px;
+    background-color: #145387;
+    -webkit-transition: .4s;
+    transition: .4s;
+    background-image: url(images/8680097_sun_line_icon.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+  
+input:checked + .slider {
+    background-color: #2590e8ab;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+    background-color: #2590e8;
+    background-image: url(images/9025835_moon_stars_icon.png);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+  
+.slider.round {
+    border-radius: 34px;
+}
+  
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#brandName {
+    text-decoration: none;
+    color: #0c3150;
+    font-size: 15px;
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 500;
+}
+
+header {
+    height: 50vh;
+    background-image: url(images/my-profit-tutor-8CL8KDg8oAs-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 31%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#headerDiv {
+    width: 70%;
+    height: 80%;
+    background-color: #00000075;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
+    text-transform: uppercase;
+    font-weight: 550;
+}
+
+#headerDiv div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: white;
+    gap: 5px;
+    width: 100%;
+    padding: 0px 20px;
+}
+
+#addItem {
+    width: 40%;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+textarea {
+    resize: none;
+    font-size: 15px;
+}
+
+#textarea {
+    width: 80%;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+button {
+    border-radius: 5px;
+    padding: 7px 25px;
+    text-transform: uppercase;
+    font-weight: 550;
+    border: none;
+}
+
+#addbtn {
+    background-color: #25c8e8;
+}
+
+#addbtn:hover {
+    background-color: #2590e8;
+}
+
+#todoDiv, #progressDiv, #doneDiv {
+    flex-grow: 1;
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: 5px;
+    border: 1px solid;
+}
+
+#todoDiv {
+    border-color: #f92718;
+}
+
+#progressDiv {
+    border-color: #2590e8;
+}
+
+#doneDiv {
+    border-color: #18a429;
+}
+
+#todoDiv h1, #progressDiv h1, #doneDiv h1 {
+    text-transform: uppercase;
+}
+
+#todoDiv h1 {
+    color: #f92718;
+}
+
+#progressDiv h1 {
+    color: #2590e8;
+}
+
+#doneDiv h1 {
+    color: #18c92c;
+}
+
+section div {
+    margin: 20px 0px;
+}
+
+section ul {
+    list-style: none;
+}
+
+section ul li {
+    border-bottom: 1px solid grey;
+    padding: 10px 0px;
+}
+
+section ul li span {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+section h2 {
+    font-size: 18px;
+    display: inline;
+}
+
+#modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#formContainer{
+    background: white; 
+    padding: 20px; 
+    border: 1px solid #ccc; 
+    width: 50%;
+    height: 50%;
+    margin: 100px auto;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+
+#modalForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#editTitle {
+    width: 40%;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 5px;
+    font-size: 15px;
+}
+
+#editDescription {
+    width: 80%;
+    padding: 0px 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 15px;
+}
+
+#saveModal {
+    background-color: #25c8e8;
+}
+
+#saveModal:hover {
+    background-color: #2590e8;
+}
+
+#closeModal {
+    background-color: #7a1912;
+    color: white;
+}
+
+#closeModal:hover {
+    background-color: #a3231a;
+}
+
+#icons {
+    margin-left: 20px;
+}
+
+#icons img {
+    cursor: pointer;
+}
+
+#icons img:hover {
+    color: #0c5e15;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <a  href="https://icons8.com/icon/15049/edit"></a><a href="https://icons8.com"></a>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div>
+            <a id="brandName" href="index.html">TaskBoard</a>
+        </div>
+        <ul class="navUl">
+            <li><a href="#todoDiv">To-Do</a></li>
+            <li><a href="#progressDiv">Done</a></li>
+            <li><a href="#doneDiv">In-Progress</a></li>
+        </ul>
+        <div>
+            <!-- Rounded switch -->
+            <label class="switchBtn">
+                <input id="toggle" type="checkbox">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </nav>
+
+    <header>
+        <form id="headerDiv">
+            <div>
+                <label for="addItem">Title</label>
+                <input id="addItem" type="text" required>
+            </div>
+            <div>
+                <label for="textarea">Description</label>
+                <textarea id="textarea" name="w3review" rows="3" cols="50" placeholder="One day... or day one!" maxlength="500"></textarea>
+            </div>
+            <div>
+                <button id="addbtn" type="submit">Add to List</button>
+            </div>
+        </form>
+    </header>
+
+    <main>
+        <section id="todoDiv">
+            <div>
+                <h1>To Do</h1>
+            </div>
+            <div>
+                <ul id="todoUl">
+                    <li>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section id="progressDiv">
+            <div>
+                <h1>In Progress</h1>
+            </div>
+            <div>
+                <ul id="progressUL">
+                    <li>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section id="doneDiv">
+            <div>
+                <h1>Done</h1>
+            </div>
+            <div>
+                <ul id="doneUl">
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" style="display: none;">
+        <div id="formContainer">
+            <h2>Edit Task</h2>
+            <form id="modalForm">
+                <label for="editTitle">Title:</label>
+                <input type="text" id="editTitle" required>
+                <br>
+                <label for="editDescription">Description:</label>
+                <textarea id="editDescription" rows="3" cols="50" maxlength="500"></textarea>
+                <br>
+                <div>
+                    <button type="submit" id="saveModal">Save</button>
+                    <button type="button" id="closeModal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
