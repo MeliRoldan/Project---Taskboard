@@ -170,6 +170,8 @@ document.getElementById('taskForm').addEventListener('submit', function(event) {
     const itemTitle = document.getElementById('itemTitle').value;
     const itemDescription = document.getElementById('itemDescription').value;
     taskManager.addTask(itemTitle, itemDescription);
+    document.getElementById('itemTitle').value = '';
+    document.getElementById('itemDescription').value = '';
 })
 
 modalForm.addEventListener('submit', (event) => {
