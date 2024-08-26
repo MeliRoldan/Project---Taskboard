@@ -2,13 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Josefin Sans", sans-serif;
+    font-family: "IBM Plex Mono", monospace;
 }
 
 body {
-    background-color: white;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    background-color: #f5f9f9;
     transition: background-color 0.4s;
 }
 
@@ -21,6 +21,84 @@ body {
     color: rgb(0, 234, 255) !important;
 }
 
+#authPage {
+    width: 100%;
+    height: 100vh;
+    background-image: url(images/il_fullxfull.4198703224_sun3.webp);
+    background-size: cover;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#authPage .formsDiv {
+    width: 80%;
+    height: 90%;
+    background-color: rgba(255, 255, 255, 0.858);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    color: black;
+    text-transform: uppercase;
+}
+
+#authPage form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:25px;
+}
+
+.formsDiv h1 {
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
+    width: 100%;
+    text-align: center;
+}
+
+#authPage form input {
+    padding: 8px;
+    border-radius: 8px;
+    width: 250px;
+}
+
+#authPage h2 {
+    font-size: 15px;
+    margin: 10px 0px;
+}
+
+#authPage button {
+    padding: 8px 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+#regBtn {
+    background-color: #415a77;
+    color: white;
+}
+
+#regBtn:hover {
+    background-color: #457b9d;
+}
+
+#logBtn {
+    background-color: #3a5a40;
+    color: white;
+}
+
+#logBtn:hover {
+    background-color: #588157;
+}
+
 nav {
     display: grid;
     grid-template-columns: max-content max-content max-content;
@@ -28,7 +106,7 @@ nav {
     justify-content: space-between;
     padding: 1rem 1rem;
     text-transform: uppercase;
-    box-shadow: 0px 1px 5px #99999a;
+    box-shadow: 1px 1px 1px #b2b2b2;
 }
 
 @media screen and (max-width: 600px) {
@@ -37,12 +115,12 @@ nav {
       grid-template-rows: auto auto;
       row-gap: 0.5rem;
       grid-template-areas: 
-        "brandName switch"
+        "accIcon switch"
         "navUl navUl";
     }
   
-    #brandName {
-      grid-area: brandName;
+    #accIcon {
+      grid-area: accIcon;
     }
   
     .navUl {
@@ -64,6 +142,8 @@ nav ul {
 
 nav ul li a {
     text-decoration: none;
+    color: #5200EE;
+    font-weight: 500;
 }
 
 .switchBtn {
@@ -86,7 +166,7 @@ nav ul li a {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(209, 215, 222);
+    background-color: #1897ae4d;
     transition: .4s;
 }
   
@@ -97,7 +177,7 @@ nav ul li a {
     width: 30px;
     left: 0px;
     bottom: -4px;
-    background-color: #145387;
+    background-color: #126688;
     -webkit-transition: .4s;
     transition: .4s;
     background-image: url(images/8680097_sun_line_icon.png);
@@ -106,14 +186,14 @@ nav ul li a {
 }
   
 input:checked + .slider {
-    background-color: #2590e8ab;
+    background-color: #14dffeac;
 }
   
 input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-    background-color: #2590e8;
+    background-color: #12bed8;
     background-image: url(images/9025835_moon_stars_icon.png);
     background-position: center center;
     background-repeat: no-repeat;
@@ -127,17 +207,30 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
-#brandName {
+#accBtns {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#accBtns img {
+    cursor: pointer;
+}
+
+#accIcon {
     text-decoration: none;
-    color: #0c3150;
-    font-size: 15px;
+    color: #5200EE;
+    font-size: 17px;
     font-family: "Josefin Sans", sans-serif;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
 }
 
 header {
     height: 50vh;
-    background-image: url(images/my-profit-tutor-8CL8KDg8oAs-unsplash.jpg);
+    background-image: url(images/wavy-minimal-9m.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center 31%;
@@ -146,10 +239,10 @@ header {
     align-items: center;
 }
 
-#headerDiv {
+#taskForm {
     width: 90%;
-    height: 80%;
-    background-color: #00000075;
+    height: 85%;
+    background-color: #00000098;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -160,7 +253,7 @@ header {
     font-weight: 550;
 }
 
-#headerDiv div {
+#taskForm div {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -171,11 +264,12 @@ header {
     padding: 0px 20px;
 }
 
-#addItem {
+#itemTitle {
     width: 50%;
     padding: 8px;
     border-radius: 5px;
     font-size: 15px;
+    background-color: #cee2e5;
 }
 
 textarea {
@@ -183,14 +277,15 @@ textarea {
     font-size: 15px;
 }
 
-#textarea {
+#itemDescription {
     width: 80%;
     padding: 8px;
     border-radius: 5px;
+    background-color: #cee2e5;
 }
 
 @media screen and (max-width: 500px) {
-    #addItem, #textarea {
+    #itemTitle, #itemDescription {
         width: 100%;
     }
 }
@@ -204,11 +299,11 @@ button {
 }
 
 #addbtn {
-    background-color: #25c8e8;
+    background-color: #1ecdec;
 }
 
 #addbtn:hover {
-    background-color: #2590e8;
+    background-color: #26e2ad;
 }
 
 #todoDiv, #progressDiv, #doneDiv {
@@ -216,19 +311,8 @@ button {
     padding: 10px 20px;
     margin: 20px;
     border-radius: 5px;
-    border: 1px solid;
-}
-
-#todoDiv {
-    border-color: #f92718;
-}
-
-#progressDiv {
-    border-color: #2590e8;
-}
-
-#doneDiv {
-    border-color: #18a429;
+    border: 1px solid gray;
+    box-shadow: 0px 5px 10px rgb(184, 183, 183);
 }
 
 #todoDiv h1, #progressDiv h1, #doneDiv h1 {
@@ -236,31 +320,31 @@ button {
 }
 
 #todoDiv h1 {
-    color: #f92718;
+    color: #2590e8;
 }
 
 #progressDiv h1 {
-    color: #2590e8;
+    color: #7161EF;
 }
 
 #doneDiv h1 {
     color: #18c92c;
 }
 
-section div {
+#tasksSectionsDiv div {
     margin: 20px 0px;
 }
 
-section ul {
+#tasksSectionsDiv ul {
     list-style: none;
 }
 
-section ul li {
+#tasksSectionsDiv ul li {
     border-bottom: 1px solid grey;
     padding: 10px 0px;
 }
 
-section ul li span {
+#tasksSectionsDiv ul li span {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -268,9 +352,13 @@ section ul li span {
     margin-bottom: 5px;
 }
 
-section h2 {
+#tasksSectionsDiv h2 {
     font-size: 18px;
     display: inline;
+}
+
+.task.done {
+    text-decoration: line-through;
 }
 
 #modal {
@@ -308,6 +396,7 @@ section h2 {
     border-radius: 5px;
     margin-top: 5px;
     font-size: 15px;
+    background-color: #e4ecee;
 }
 
 #editDescription {
@@ -317,6 +406,7 @@ section h2 {
     margin-top: 5px;
     padding: 8px;
     font-size: 15px;
+    background-color: #e4ecee;
 }
 
 @media screen and (max-width: 500px) {
@@ -329,23 +419,24 @@ section h2 {
     }
 }
 
+
 #saveModal {
-    background-color: #25c8e8;
+    background-color: #1ecdec;
     margin: 5px 0px;
 }
 
 #saveModal:hover {
-    background-color: #2590e8;
+    background-color: #26e2ad;
 }
 
 #closeModal {
-    background-color: #7a1912;
+    background-color: #A5121A;
     color: white;
     margin: 5px 0px;
 }
 
 #closeModal:hover {
-    background-color: #a3231a;
+    background-color: #810E14;
 }
 
 #icons {

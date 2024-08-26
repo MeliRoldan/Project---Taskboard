@@ -1,3 +1,198 @@
+const modal = document.getElementById('modal');
+const modalForm = document.getElementById('modalForm');
+const closeModal = document.getElementById('closeModal');
+const editTitle = document.getElementById('editTitle');
+const editDescription = document.getElementById('editDescription');
+
+class User {
+    #password
+    constructor(username, email, password) {
+        this.username = username;
+        this.email = email;
+        this.#password = password;
+        this.tasks = [];
+    }
+
+    validatePassword(password) {
+        return this.#password === password;
+    }
+
+    save() {
+        localStorage.setItem(this.username, JSON.stringify(this.tasks));
+    }
+
+    fetch() {
+        const savedTasks = localStorage.getItem(this.username);
+        if(savedTasks) {
+            this.tasks = JSON.parse(savedTasks);
+        }
+    }
+}
+
+class Task {
+    constructor(title, description) {
+        this.title = title;
+        this.description = description;
+        this.status = 'todo';
+    }
+}
+
+class TaskManager {
+    constructor() {
+        this.currentUser = null;
+        this.currentTask = null;
+        this.usersArr = [];
+    }
+
+    register(username, email, password) {
+        const exsistingUser = this.usersArr.find(user => user.email === email);
+        if(exsistingUser) {
+            alert("User already exists! Please log in.");
+            return;
+        }
+
+        const newUser = new User(username, email, password);
+        this.usersArr.push(newUser);
+        alert('You are succesfully registered! Please log in.');
+    }
+
+    login(email, password) {
+        const validatedUser = this.usersArr.find(user => user.email === email);
+        if(validatedUser && validatedUser.validatePassword(password)) {
+            this.currentUser = validatedUser;
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('taskboard').style.display = 'block';
+            document.getElementById('greeting').innerHTML = 'Hello, ' + validatedUser.username + '!';
+            this.currentUser.fetch();
+            this.loadTasks();
+        } else {
+            alert("Incorrect email or password. Try again.");
+        }
+    }
+
+    addTask(title, description) {
+        const newTask = new Task(title, description);
+        this.currentUser.tasks.push(newTask);
+        this.currentUser.save();
+        this.loadTasks();
+    }
+
+    editTask(index) {
+        this.currentTask = index;
+        const task = this.currentUser.tasks[index];
+        modal.style.display = 'flex';
+        editTitle.value = task.title;
+        editDescription.value = task.description;
+    }
+
+    moveTask(index, status) {
+        this.currentUser.tasks[index].status = status;
+        this.currentUser.save();
+        this.loadTasks();
+    }
+
+    loadTasks() {
+        const taskListing = {
+            todo: document.getElementById('todoUl'),
+            inprogress: document.getElementById('progressUL'),
+            done: document.getElementById('doneUl')
+        }
+
+        for (let tasks in taskListing) {
+            taskListing[tasks].innerHTML = "";
+        }
+
+        this.currentUser.tasks.forEach((task, index) => {
+            const task_li = document.createElement('li');
+            task_li.className = `task ` + (task.status === 'done' ? 'done' : '');
+            task_li.innerHTML = `<span>
+                <h2>${task.title}</h2>
+                <span id="icons">
+                </span>
+            </span>
+            <p>${task.description}</p>`;
+
+            if(task.status !== 'done') {
+                const btnIcons = task_li.querySelector('#icons');
+                btnIcons.innerHTML = `<img id="edit" class="edit" width="20" height="20" src="https://img.icons8.com/windows/20/edit--v1.png" alt="edit--v1"/>
+                    ${task.status !== 'inprogress' ? `<img id="toProgress" class="toProgress" width="20" height="20" src="https://img.icons8.com/ios-filled/20/loading.png" alt="loading"/>` : ''}
+                    <img id="toDone" class="toDone" width="20" height="20" src="https://img.icons8.com/material-two-tone/20/checkmark--v2.png" alt="checkmark--v2"/>
+                `;
+
+                btnIcons.querySelector('#edit').addEventListener('click', () => this.editTask(index));
+
+                const toProgressBtn =  btnIcons.querySelector('#toProgress');
+                if(toProgressBtn) {
+                    toProgressBtn.addEventListener('click', () => this.moveTask(index, 'inprogress'));
+                }
+
+                btnIcons.querySelector('#toDone').addEventListener('click', () => this.moveTask(index, 'done'));
+            }
+
+            taskListing[task.status].appendChild(task_li);
+        });
+
+        updateIcons();
+    }
+
+    logout() {
+        this.currentUser = null;
+        this.currentTask = null;
+        document.getElementById('authPage').style.display = 'flex';
+        document.getElementById('taskboard').style.display = 'none';
+    }
+}
+
+const taskManager = new TaskManager();
+
+document.getElementById('regForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const username = document.getElementById('userName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    taskManager.register(username, email, password);
+    document.getElementById('userName').value = '';
+    document.getElementById('regEmail').value = '';
+    document.getElementById('regPassword').value = '';
+})
+
+document.getElementById('logForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    taskManager.login(email, password);
+    document.getElementById('email').value = '';
+    document.getElementById('password').value = '';
+})
+
+document.getElementById('taskForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const itemTitle = document.getElementById('itemTitle').value;
+    const itemDescription = document.getElementById('itemDescription').value;
+    taskManager.addTask(itemTitle, itemDescription);
+})
+
+modalForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const taskIndex = taskManager.currentTask;
+    const task = taskManager.currentUser.tasks[taskIndex];
+    task.title = editTitle.value;
+    task.description = editDescription.value;
+    taskManager.currentUser.save();
+    taskManager.loadTasks();
+    modal.style.display = 'none';
+})
+
+closeModal.addEventListener('click', (event) => {
+    event.preventDefault();
+    modal.style.display = 'none';
+})
+
+document.getElementById('logoutBtn').addEventListener('click', function(event) {
+    event.preventDefault();
+    taskManager.logout();
+})
+
 document.addEventListener('DOMContentLoaded', function() {
     const toggleSwitch = document.getElementById('toggle');
     const formContainer = document.getElementById('formContainer');
@@ -40,138 +235,21 @@ function  updateIcons () {
                 break;
         }
     });
+
+    const accBtns = document.querySelectorAll('#accBtns img');
+    accBtns.forEach(icon => {
+        console.log(icon)
+        switch (icon.className) {
+            case 'logoutBtn':
+                icon.src = isDarkMode
+                    ? 'https://img.icons8.com/external-regular-kawalan-studio/24/FFFFFF/external-logout-shopping-e-commerce-regular-kawalan-studio.png'
+                    : 'https://img.icons8.com/external-thin-kawalan-studio/24/external-logout-social-media-thin-kawalan-studio-2.png';
+                break;
+            case 'accIcon':
+                icon.src = isDarkMode
+                    ? 'https://img.icons8.com/windows/25/FFFFFF/user.png'
+                    : 'https://img.icons8.com/windows/25/user.png';
+                break;
+        }
+    });
 };
-
-const addItem = document.getElementById('addItem');
-const textarea = document.getElementById('textarea');
-const addbtn = document.getElementById('headerDiv');
-const todoUl = document.getElementById('todoUl');
-const progressUL = document.getElementById('progressUL');
-const doneUl = document.getElementById('doneUl');
-const main = document.querySelector('main');
-
-const modal = document.getElementById('modal');
-const modalForm = document.getElementById('modalForm');
-const closeModal = document.getElementById('closeModal');
-const editTitle = document.getElementById('editTitle');
-const editDescription = document.getElementById('editDescription');
-
-class Task {
-    constructor(title, description, id) {
-        this.title = title;
-        this.description = description;
-        this.id = id;
-    }
-}
-
-let todoArr = [];
-let progressArr = [];
-let doneArr = [];
-
-addbtn.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const title = addItem.value;
-    const description = textarea.value;
-    const id = Math.floor(Math.random() * 1000);
-
-    todoUl.innerHTML += `
-        <li>
-            <span>
-                <h2>${title}</h2>
-                <span id="icons">
-                    <img id="${id}" class="edit" width="20" height="20" src="https://img.icons8.com/windows/20/edit--v1.png" alt="edit--v1"/>
-                    <img id="${id}" class="toProgress" width="20" height="20" src="https://img.icons8.com/ios-filled/20/loading.png" alt="loading"/>
-                    <img class="toDone" width="20" height="20" src="https://img.icons8.com/material-two-tone/20/checkmark--v2.png" alt="checkmark--v2"/>
-                </span>
-            </span>
-            <p>${description}</p>
-        </li>
-    `
-    updateIcons();
-    
-    const item = new Task(title, description, id);
-    todoArr.push(item);
-    addItem.value = '';
-    textarea.value = '';
-})
-
-let currentItem;
-
-todoUl.addEventListener('click', function (event) {
-    const target = event.target.id;
-
-    if(event.target.classList.contains('edit')){
-        const targetItem = todoArr.find(item => item.id == target);
-        currentItem = targetItem;
-        editTitle.value = targetItem.title;
-        editDescription.value = targetItem.description;
-        modal.style.display = 'flex';
-    }
-
-    if(event.target.classList.contains('toProgress')){
-        const itemIndex = todoArr.findIndex(item => item.id == target);
-        const [movedItem] = todoArr.splice(itemIndex, 1);
-        progressArr.push(movedItem);
-        const li = event.target.closest('li');
-        todoUl.removeChild(li);
-        progressUL.appendChild(li);
-        event.target.style.display = 'none';
-    }
-
-    if(event.target.classList.contains('toDone')){
-        const itemIndex = todoArr.findIndex(item => item.id == target);
-        const [movedItem] = todoArr.splice(itemIndex, 1);
-        doneArr.push(movedItem);
-        const li = event.target.closest('li');
-        todoUl.removeChild(li);
-        doneUl.appendChild(li);
-        const allIcons = li.querySelectorAll('img');
-        const liH2 = li.querySelectorAll('h2');
-        const liP = li.querySelectorAll('p');
-        allIcons.forEach(icon => icon.style.display = 'none');
-        liH2.forEach(h => h.style.textDecoration = 'line-through');
-        liP.forEach(p => p.style.textDecoration = 'line-through');
-    }
-})
-
-progressUL.addEventListener('click', function (event) {
-    const target = event.target.id;
-
-    if(event.target.classList.contains('edit')){
-        const targetItem = progressArr.find(item => item.id == target);
-        
-        currentItem = targetItem;
-        editTitle.value = targetItem.title;
-        editDescription.value = targetItem.description;
-        modal.style.display = 'flex';
-    }
-
-    if(event.target.classList.contains('toDone')){
-        const itemIndex = progressArr.findIndex(item => item.id == target);
-        const [movedItem] = progressArr.splice(itemIndex, 1);
-        doneArr.push(movedItem);
-        const li = event.target.closest('li');
-        progressUL.removeChild(li);
-        doneUl.appendChild(li);
-        const allIcons = li.querySelectorAll('img');
-        const liH2 = li.querySelectorAll('h2');
-        const liP = li.querySelectorAll('p');
-        allIcons.forEach(icon => icon.style.display = 'none');
-        liH2.forEach(h => h.style.textDecoration = 'line-through');
-        liP.forEach(p => p.style.textDecoration = 'line-through');
-    }
-})
-
-modalForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    currentItem.title = editTitle.value;
-    currentItem.description = editDescription.value;
-    const li = main.querySelector(`li img[id="${currentItem.id}"]`).closest('li');
-    li.querySelector('h2').textContent = currentItem.title;
-    li.querySelector('p').textContent = currentItem.description;
-    modal.style.display = 'none';
-});
-
-closeModal.addEventListener('click', function () {
-    modal.style.display = 'none';
-});
