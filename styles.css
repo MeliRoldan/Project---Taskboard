@@ -311,8 +311,8 @@ button {
     padding: 10px 20px;
     margin: 20px;
     border-radius: 5px;
-    border: 1px solid gray;
-    box-shadow: 2px 2px rgb(184, 183, 183);
+    border: 1.5px solid gray;
+    box-shadow: 0px 0px 5px rgb(184, 183, 183);
 }
 
 #todoDiv h1, #progressDiv h1, #doneDiv h1 {
